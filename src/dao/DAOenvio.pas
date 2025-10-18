@@ -15,9 +15,9 @@ implementation
     var 
         archivo : T_ARCHIVO_ENVIO;
     begin
+        Assign(archivo, RUTA);
         ChechearCarpetaYArchivoExisten(RUTA, archivo);
 
-        Assign(archivo, RUTA);
         Reset(archivo);
         Seek(archivo, FileSize(archivo));
         Write(archivo, envio);
@@ -29,9 +29,9 @@ implementation
         i: integer;
         archivo: T_ARCHIVO_ENVIO;
     begin
+    Assign(archivo, RUTA);
     ChechearCarpetaYArchivoExisten(RUTA, archivo);
 
-    Assign(archivo, RUTA);
     Reset(archivo);
 
     SetLength(envios, FileSize(archivo));
