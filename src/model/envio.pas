@@ -16,7 +16,7 @@ interface
             estado: E_Estado;
             peso: real;
             costo: real;
-            fecha: string[8];
+            fecha: string[10];
         end;
 
         T_Lista_Envio = array of T_Envio;

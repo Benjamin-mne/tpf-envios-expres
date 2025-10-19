@@ -56,7 +56,7 @@ implementation
             Writeln('Estado envio: ', estado);
             Writeln('Peso del paquete: ', peso:0:2);
             Writeln('Costo del envio: ', costo:0:2);
-            Writeln('Fecha:', fecha);
+            Writeln('Fecha: ', fecha);
         end;
     end;
 

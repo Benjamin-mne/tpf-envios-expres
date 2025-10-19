@@ -1,7 +1,7 @@
 unit ControllerEnvio;
 
 interface
-    uses Envio, DAOenvio;
+    uses Envio, DAOenvio, SysUtils;
 
     procedure CrearEnvio(envio : T_Envio);
     procedure ObtenerTodosLosEnvios(var envios : T_Lista_Envio);
@@ -10,10 +10,14 @@ interface
 
 implementation
     procedure CrearEnvio(envio : T_Envio);
+    var 
+        fechaActual: TDateTime;
     begin
+        fechaActual := Date;
+
         envio.id:= ObtenerSiguienteIdEnvio();
         envio.estado:= EnPreparacion;
-        envio.fecha:= 'todo:ooo';
+        envio.fecha:= FormatDateTime('dd/mm/yyyy', FechaActual);
 
         EscribirEnvioEnArchivo(envio);
     end;
