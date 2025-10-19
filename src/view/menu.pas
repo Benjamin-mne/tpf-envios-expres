@@ -9,7 +9,7 @@ interface
     procedure CancelarEnvioVista();
 
 implementation
-    uses crt, Envio, ControllerEnvio;
+    uses crt, Envio, ControllerEnvio, TestUtils;
 
     procedure AgregarEnvio();
     var 
@@ -48,6 +48,17 @@ implementation
     end;
 
     procedure MostrarEnvio(envio : T_Envio);
+        function FormatearEstado(estado : E_Estado): string;
+        begin
+            if (estado = EnPreparacion) then
+                FormatearEstado:= 'En preparacion'
+            else if (estado = EnCamino) then 
+                FormatearEstado:= 'En camino'
+            else if (estado = EnDestino) then 
+                FormatearEstado:= 'En Destino'
+            else 
+                FormatearEstado:= 'Cancelado';
+        end;
     begin
         with envio do
         begin
@@ -56,7 +67,7 @@ implementation
             Writeln('DNI del destinatario: ', destinatario.dni);
             Writeln('Nombre del destinatario: ', destinatario.nombre);
             Writeln('Ciudad destino: ', ciudad_destino);
-            Writeln('Estado envio: ', estado);
+            Writeln('Estado envio: ', FormatearEstado(estado));
             Writeln('Peso del paquete: ', peso:0:2);
             Writeln('Costo del envio: ', costo:0:2);
             Writeln('Fecha: ', fecha);
@@ -124,12 +135,14 @@ implementation
     begin
         repeat
             ClrScr;
-            Writeln('1. Agregar unenvio');
+            Writeln('1. Agregar envio');
             Writeln('2. Listar envios');
             Writeln('3. Buscar envio');
             Writeln('4. Avanzar estado de envio');
             Writeln('5. Cancelar envio');
             Writeln('0. Salir');
+            Writeln('');
+            Writeln('99. Generar data de prueba');
             Write('Opcion: ');
             Readln(OP);
 
@@ -139,6 +152,7 @@ implementation
                 3: BuscarEnvio();
                 4: AvanzarEstadoEnvio();
                 5: CancelarEnvioVista();
+                99: GenerarDataDePrueba();
                 0: Writeln('Saliendo...');
             end;
         until (OP = 0);
