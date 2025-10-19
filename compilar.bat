@@ -13,6 +13,11 @@ fpc src\model\envio.pas -FUbin
 if errorlevel 1 goto Error
 
 echo ==========================================
+echo Compilando Utils.pas...
+fpc src\utils\Utils.pas -FUbin
+if errorlevel 1 goto Error
+
+echo ==========================================
 echo Compilando DAOUtils.pas...
 fpc src\utils\DAOUtils.pas -FUbin
 if errorlevel 1 goto Error
