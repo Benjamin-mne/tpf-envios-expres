@@ -10,7 +10,7 @@ interface
         E_Estado = (EnPreparacion, EnCamino, EnDestino);
 
         T_Envio = record 
-            id: string[15];
+            id: integer;
             destinatario: T_Destinatario;
             ciudad_destino: string[30];
             estado: E_Estado;

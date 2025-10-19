@@ -11,7 +11,7 @@ interface
 implementation
     procedure CrearEnvio(envio : T_Envio);
     begin
-        envio.id:= 'todo: randomId';
+        envio.id:= ObtenerSiguienteIdEnvio();
         envio.estado:= EnPreparacion;
         envio.fecha:= 'todo:ooo';
 

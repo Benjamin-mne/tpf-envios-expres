@@ -3,6 +3,7 @@ unit DAOenvio;
 interface
     uses Envio; 
 
+    function ObtenerSiguienteIdEnvio(): integer;
     procedure EscribirEnvioEnArchivo(envio : T_Envio);
     procedure LeerEnviosDesdeArchivo(var envios : T_Lista_Envio);
     procedure ActualizarEnvioEnArchivo();
@@ -10,6 +11,19 @@ interface
 implementation
     uses SysUtils, DAOUtils;
     const RUTA = '../data/envio.dat';
+
+    function ObtenerSiguienteIdEnvio(): integer;
+    var 
+        archivo : T_ARCHIVO_ENVIO;
+    begin
+        Assign(archivo, RUTA);
+        ChechearCarpetaYArchivoExisten(RUTA, archivo);
+
+        Reset(archivo);
+        ObtenerSiguienteIdEnvio := FileSize(archivo) + 1;
+        Close(archivo);
+    end;
+
 
     procedure EscribirEnvioEnArchivo(envio : T_Envio);
     var 
