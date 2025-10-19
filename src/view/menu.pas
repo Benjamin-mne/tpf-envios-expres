@@ -5,6 +5,8 @@ interface
     procedure ListarEnvios();
     procedure BuscarEnvio();
     procedure MostrarMenu();
+    procedure AvanzarEstadoEnvio();
+    procedure CancelarEnvioVista();
 
 implementation
     uses crt, Envio, ControllerEnvio;
@@ -90,14 +92,43 @@ implementation
         Readkey;
     end;
 
+    procedure AvanzarEstadoEnvio();
+    var 
+        id : integer;
+    begin
+        Write('Ingrese id del envio: ');
+        readln(id);
+        if(ActualizarEstadoEnvio(id)) then
+            Writeln('Estado del envio actualizado con exito.')
+        else 
+            Write('El envio no existe o ya esta en su destino.');
+        
+        Readkey;
+    end;
+
+    procedure CancelarEnvioVista();
+    var 
+        id : integer;
+    begin
+        Write('Ingrese id del envio: ');
+        readln(id);
+        if(CancelarEnvio(id)) then
+            Writeln('El envio se ha cancelado con exito.')
+        else 
+            Write('El envio no existe o no es posible cancelarlo en esta etapa.');
+        Readkey;
+    end;
+
     procedure MostrarMenu();
     var OP: byte;
     begin
         repeat
             ClrScr;
-            Writeln('1. Agregar envio');
+            Writeln('1. Agregar unenvio');
             Writeln('2. Listar envios');
             Writeln('3. Buscar envio');
+            Writeln('4. Avanzar estado de envio');
+            Writeln('5. Cancelar envio');
             Writeln('0. Salir');
             Write('Opcion: ');
             Readln(OP);
@@ -106,6 +137,8 @@ implementation
                 1: AgregarEnvio();
                 2: ListarEnvios();
                 3: BuscarEnvio();
+                4: AvanzarEstadoEnvio();
+                5: CancelarEnvioVista();
                 0: Writeln('Saliendo...');
             end;
         until (OP = 0);

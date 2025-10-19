@@ -6,7 +6,7 @@ interface
     function ObtenerSiguienteIdEnvio(): integer;
     procedure EscribirEnvioEnArchivo(envio : T_Envio);
     procedure LeerEnviosDesdeArchivo(var envios : T_Lista_Envio);
-    procedure ActualizarEnvioEnArchivo();
+    procedure ActualizarEnvioEnArchivo(pos: integer; envioActualizado: T_Envio);
 
 implementation
     uses SysUtils, DAOUtils;
@@ -43,21 +43,29 @@ implementation
         i: integer;
         archivo: T_ARCHIVO_ENVIO;
     begin
-    Assign(archivo, RUTA);
-    ChechearCarpetaYArchivoExisten(RUTA, archivo);
+        Assign(archivo, RUTA);
+        ChechearCarpetaYArchivoExisten(RUTA, archivo);
 
-    Reset(archivo);
+        Reset(archivo);
 
-    SetLength(envios, FileSize(archivo));
+        SetLength(envios, FileSize(archivo));
 
-    for i := 0 to Length(envios) - 1 do
-        Read(archivo, envios[i]);
+        for i := 0 to Length(envios) - 1 do
+            Read(archivo, envios[i]);
 
-    Close(archivo);
+        Close(archivo);
     end;
 
-    procedure ActualizarEnvioEnArchivo();
+    procedure ActualizarEnvioEnArchivo(pos: integer; envioActualizado: T_Envio);
+    var
+        archivo: T_ARCHIVO_ENVIO;
     begin
-    end;
+        Assign(archivo, RUTA);
+        ChechearCarpetaYArchivoExisten(RUTA, archivo);
 
+        Reset(archivo);
+        Seek(archivo, pos);
+        Write(archivo, envioActualizado);
+        Close(archivo);
+    end;
 end.
