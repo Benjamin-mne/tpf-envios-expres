@@ -4,7 +4,8 @@ interface
     uses Envio;
     procedure OrdenarEnvioPorIdYNombreDestinatario(var envios : T_Lista_Envio);
     procedure OrdenarEnvioPorId(var envios : T_Lista_Envio);
-    procedure BuscarEnvioPorId(var envios : T_Lista_Envio; id: integer; var pos: integer);
+    procedure BuscarEnvioPorId_BBIN(var envios : T_Lista_Envio; id: integer; var pos: integer);
+    procedure BuscarEnvioPorId_Secuencial(var envios : T_Lista_Envio; id: integer; var pos: integer);
 
 implementation
     procedure OrdenarEnvioPorId(var envios : T_Lista_Envio);
@@ -39,7 +40,7 @@ implementation
                 end;
     end;
 
-    procedure BuscarEnvioPorId(var envios : T_Lista_Envio; id: integer; var pos: integer);
+    procedure BuscarEnvioPorId_BBIN(var envios : T_Lista_Envio; id: integer; var pos: integer);
     var 
         pri, ult, med: integer;
     begin
@@ -60,5 +61,16 @@ implementation
         end;
     end;
 
-
+    procedure BuscarEnvioPorId_Secuencial(var envios: T_Lista_Envio; id: integer; var pos: integer);
+    var
+        i: integer;
+    begin
+        pos := -1;
+        for i := 0 to Length(envios) - 1 do
+            if envios[i].id = id then
+            begin
+                pos := i;
+                Break;
+            end;
+    end;
 end.
