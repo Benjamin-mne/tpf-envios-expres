@@ -7,7 +7,7 @@ interface
             nombre: string[60];
         end;
 
-        E_Estado = (EnPreparacion, EnCamino, EnDestino);
+        E_Estado = (EnPreparacion, EnCamino, EnDestino, Cancelado);
 
         T_Envio = record 
             id: integer;
