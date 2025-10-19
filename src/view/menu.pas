@@ -9,12 +9,13 @@ interface
     procedure CancelarEnvioVista();
 
 implementation
-    uses crt, Envio, ControllerEnvio, TestUtils;
+    uses crt, Envio, ControllerEnvio, TestUtils, SysUtils;
 
     procedure AgregarEnvio();
     var 
         envio: T_Envio;
         destinatario: T_Destinatario;
+        input: string;
     begin
         ClrScr;
         Writeln('====== AGREGAR ENVIO ======');
@@ -33,11 +34,15 @@ implementation
         Write('Ciudad destino: ');
         Readln(envio.ciudad_destino);
 
-        Write('Peso (kg): ');
-        Readln(envio.peso);
+        repeat
+            Write('Peso (kg): ');
+            Readln(input);
+        until TryStrToFloat(input, envio.peso);
 
-        Write('Costo ($): ');
-        Readln(envio.costo);
+        repeat
+            Write('Costo ($): ');
+            Readln(input);
+        until TryStrToFloat(input, envio.costo);
 
         // --- Guardar en archivo ---
         CrearEnvio(envio);
@@ -89,11 +94,15 @@ implementation
     procedure BuscarEnvio();
     var 
         envios : T_Lista_Envio; 
-        id, pos : integer; 
-
+        id : longint;
+        pos : integer; 
+        input: string;
     begin
-        Write('Ingrese id de envio: '); 
-        Readln(id);
+        repeat
+            Write('Ingrese id de envio: ');
+            Readln(input);
+        until TryStrToInt(input, id);
+
         ObtenerEnvioPorId(envios, id, pos);
         if (pos <> -1) then 
             MostrarEnvio(envios[pos])
@@ -105,10 +114,14 @@ implementation
 
     procedure AvanzarEstadoEnvio();
     var 
-        id : integer;
+        id : longint;
+        input: string;
     begin
-        Write('Ingrese id del envio: ');
-        readln(id);
+        repeat
+            Write('Ingrese id del envio: ');
+            Readln(input);
+        until TryStrToInt(input, id);
+
         if(ActualizarEstadoEnvio(id)) then
             Writeln('Estado del envio actualizado con exito.')
         else 
@@ -119,10 +132,14 @@ implementation
 
     procedure CancelarEnvioVista();
     var 
-        id : integer;
+        id : longint;
+        input: string;
     begin
-        Write('Ingrese id del envio: ');
-        readln(id);
+        repeat
+            Write('Ingrese id del envio: ');
+            Readln(input);
+        until TryStrToInt(input, id);
+
         if(CancelarEnvio(id)) then
             Writeln('El envio se ha cancelado con exito.')
         else 
@@ -130,8 +147,10 @@ implementation
         Readkey;
     end;
 
-    procedure MostrarMenu();
-    var OP: byte;
+   procedure MostrarMenu();
+    var 
+        input: string;
+        OP: longint;
     begin
         repeat
             ClrScr;
@@ -143,8 +162,15 @@ implementation
             Writeln('0. Salir');
             Writeln('');
             Writeln('99. Generar data de prueba');
+            
             Write('Opcion: ');
-            Readln(OP);
+            Readln(input);
+
+            if not TryStrToInt(input, OP) then
+            begin
+                OP:= -1;
+                Continue;
+            end;
 
             case OP of
                 1: AgregarEnvio();
@@ -155,6 +181,6 @@ implementation
                 99: GenerarDataDePrueba();
                 0: Writeln('Saliendo...');
             end;
-        until (OP = 0);
+        until OP = 0;
     end;
 end.
