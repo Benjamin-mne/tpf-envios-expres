@@ -1,11 +1,11 @@
 unit ControllerEnvio;
 
 interface
-    uses Envio, DAOenvio, SysUtils;
+    uses Envio, DAOenvio, SysUtils, Utils;
 
     procedure CrearEnvio(envio : T_Envio);
     procedure ObtenerTodosLosEnvios(var envios : T_Lista_Envio);
-    procedure ObtenerEnvioPorId();
+    procedure ObtenerEnvioPorId(var envios : T_Lista_Envio; id: integer; var pos: integer);
     procedure ActualizarEstadoEnvio();
 
 implementation
@@ -27,8 +27,11 @@ implementation
         LeerEnviosDesdeArchivo(envios);
     end;
     
-    procedure ObtenerEnvioPorId();
+    procedure ObtenerEnvioPorId(var envios : T_Lista_Envio; id: integer; var pos: integer);
     begin
+        LeerEnviosDesdeArchivo(envios);
+        OrdenarEnvioPorId(envios);
+        BuscarEnvioPorId(envios, id, pos);
     end;
 
     procedure ActualizarEstadoEnvio();

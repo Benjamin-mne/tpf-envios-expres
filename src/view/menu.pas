@@ -3,6 +3,7 @@ unit Menu;
 interface
     procedure AgregarEnvio();
     procedure ListarEnvios();
+    procedure BuscarEnvio();
     procedure MostrarMenu();
 
 implementation
@@ -72,6 +73,24 @@ implementation
         Readkey;
     end;
 
+    procedure BuscarEnvio();
+    var 
+        envios : T_Lista_Envio; 
+        envio : T_Envio;
+        id, pos : integer; 
+
+    begin
+        Write('Ingrese id de envio: '); 
+        Readln(id);
+        ObtenerEnvioPorId(envios, id, pos);
+        if (pos <> -1) then 
+            MostrarEnvio(envios[pos])
+        else 
+            Writeln('No se encontro un envio con el id ingresado.');
+        
+        Readkey;
+    end;
+
     procedure MostrarMenu();
     var OP: byte;
     begin
@@ -79,6 +98,7 @@ implementation
             ClrScr;
             Writeln('1. Agregar envio');
             Writeln('2. Listar envios');
+            Writeln('3. Buscar envio');
             Writeln('0. Salir');
             Write('Opcion: ');
             Readln(OP);
@@ -86,6 +106,7 @@ implementation
             case OP of
                 1: AgregarEnvio();
                 2: ListarEnvios();
+                3: BuscarEnvio();
                 0: Writeln('Saliendo...');
             end;
         until (OP = 0);
