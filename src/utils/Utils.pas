@@ -2,6 +2,7 @@ unit Utils;
 
 interface
     uses Envio;
+    procedure OrdenarEnvioPorIdYNombreDestinatario(var envios : T_Lista_Envio);
     procedure OrdenarEnvioPorId(var envios : T_Lista_Envio);
     procedure BuscarEnvioPorId(var envios : T_Lista_Envio; id: integer; var pos: integer);
 
@@ -14,6 +15,23 @@ implementation
         for i := 0 to (Length(envios) - 2) do
             for j := 0 to (Length(envios) - (i + 2)) do
                 if (envios[j].id > envios[j + 1].id) then
+                begin
+                    aux := envios[j];
+                    envios[j] := envios[j + 1];
+                    envios[j + 1] := aux;
+                end;
+    end;
+
+    procedure OrdenarEnvioPorIdYNombreDestinatario(var envios : T_Lista_Envio);
+    var 
+        i, j : integer;
+        aux : T_Envio;
+    begin
+        for i := 0 to (Length(envios) - 2) do
+            for j := 0 to (Length(envios) - (i + 2)) do
+                if  (envios[j].id > envios[j + 1].id) or
+                    ((envios[j].id = envios[j + 1].id) and 
+                    (envios[j].destinatario.nombre > envios[j + 1].destinatario.nombre)) then
                 begin
                     aux := envios[j];
                     envios[j] := envios[j + 1];

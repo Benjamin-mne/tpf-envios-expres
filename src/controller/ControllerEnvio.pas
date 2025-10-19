@@ -25,6 +25,7 @@ implementation
     procedure ObtenerTodosLosEnvios(var envios : T_Lista_Envio);
     begin
         LeerEnviosDesdeArchivo(envios);
+        OrdenarEnvioPorIdYNombreDestinatario(envios);
     end;
     
     procedure ObtenerEnvioPorId(var envios : T_Lista_Envio; id: integer; var pos: integer);

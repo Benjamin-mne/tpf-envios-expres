@@ -76,7 +76,6 @@ implementation
     procedure BuscarEnvio();
     var 
         envios : T_Lista_Envio; 
-        envio : T_Envio;
         id, pos : integer; 
 
     begin
