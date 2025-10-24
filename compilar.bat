@@ -39,6 +39,12 @@ if errorlevel 1 goto Error
 echo.
 
 echo ==========================================
+echo Compilando ViewUtils.pas...
+fpc src\utils\ViewUtils.pas -FUbin
+if errorlevel 1 goto Error
+echo.
+
+echo ==========================================
 echo Compilando menu.pas...
 fpc src\view\menu.pas -FUbin
 if errorlevel 1 goto Error

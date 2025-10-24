@@ -27,10 +27,13 @@ El script hará lo siguiente:
 - Creará la carpeta `bin` si no existe.  
 - Compilará las *units* en el siguiente orden:
   1. `src/model/envio.pas`  
-  2. `src/utils/DAOUtils.pas`  
-  3. `src/dao/DAOenvio.pas`  
-  4. `src/controller/ControllerEnvio.pas`  
-  5. `src/view/menu.pas`
+  2. `src/utils/Utils.pas`  
+  3. `src/utils/DAOUtils.pas`  
+  4. `src/dao/DAOenvio.pas`  
+  5. `src/controller/ControllerEnvio.pas`  
+  6. `src/controller/TestUtils.pas`  
+  7. `src/controller/ViewUtils.pas`  
+  8. `src/view/menu.pas`
 - Luego compilará el programa principal: `src/main.pas`.
 - Guardará el ejecutable final como **`bin/TPF.exe`**.
 - Finalmente eliminará los archivos temporales (`.o`, `.ppu`).
@@ -54,16 +57,17 @@ Este enfoque facilita mantener el código ordenado, comprensible y fácil de amp
 ```bash
 /
 ├── src/
+│   ├── controller/
+│   │   └── ControllerEnvio.pas
+│   ├── dao/
+│   │   └── DAOenvio.pas
 │   ├── model/
 │   │   └── envio.pas
 │   ├── utils/
 │   │   └── DAOUtils.pas
 │   │   └── TestUtils.pas
+│   │   └── ViewUtils.pas
 │   │   └── Utils.pas
-│   ├── dao/
-│   │   └── DAOenvio.pas
-│   ├── controller/
-│   │   └── ControllerEnvio.pas
 │   ├── view/
 │   │   └── menu.pas
 │   └── main.pas

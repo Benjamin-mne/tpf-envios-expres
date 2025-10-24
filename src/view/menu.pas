@@ -4,12 +4,12 @@ interface
     procedure AgregarEnvio();
     procedure ListarEnvios();
     procedure BuscarEnvio();
-    procedure MostrarMenu();
+    procedure IniciarVistas();
     procedure AvanzarEstadoEnvio();
     procedure CancelarEnvioVista();
 
 implementation
-    uses crt, Envio, ControllerEnvio, TestUtils, SysUtils;
+    uses crt, Envio, ControllerEnvio, TestUtils, SysUtils, ViewUtils;
 
     procedure AgregarEnvio();
     var 
@@ -20,7 +20,6 @@ implementation
         ClrScr;
         Writeln('====== AGREGAR ENVIO ======');
 
-        // --- Datos del destinatario ---
         Writeln('--- DESTINATARIO ---');
         Write('Nombre: ');
         Readln(destinatario.nombre);
@@ -29,7 +28,6 @@ implementation
 
         envio.destinatario := destinatario;
 
-        // --- Datos del envio ---
         Writeln('--- ENVIO ---');
         Write('Ciudad destino: ');
         Readln(envio.ciudad_destino);
@@ -44,12 +42,8 @@ implementation
             Readln(input);
         until TryStrToFloat(input, envio.costo);
 
-        // --- Guardar en archivo ---
         CrearEnvio(envio);
-
         Writeln('Envio agregado correctamente.');
-        Write('Presione cualquier tecla para continuar...');
-        Readkey;
     end;
 
     procedure MostrarEnvio(envio : T_Envio);
@@ -87,8 +81,6 @@ implementation
         ObtenerTodosLosEnvios(envios);
         for i:= 0 to Length(envios) - 1 do
             MostrarEnvio(envios[i]);
-        
-        Readkey;
     end;
 
     procedure BuscarEnvio();
@@ -108,8 +100,6 @@ implementation
             MostrarEnvio(envios[pos])
         else 
             Writeln('No se encontro un envio con el id ingresado.');
-        
-        Readkey;
     end;
 
     procedure AvanzarEstadoEnvio();
@@ -126,8 +116,6 @@ implementation
             Writeln('Estado del envio actualizado con exito.')
         else 
             Write('El envio no existe o ya esta en su destino.');
-        
-        Readkey;
     end;
 
     procedure CancelarEnvioVista();
@@ -144,43 +132,90 @@ implementation
             Writeln('El envio se ha cancelado con exito.')
         else 
             Write('El envio no existe o no es posible cancelarlo en esta etapa.');
-        Readkey;
     end;
 
-   procedure MostrarMenu();
+    procedure IniciarVistas();
     var 
         input: string;
-        OP: longint;
+        OPOP: longint;
+
+        opciones : V_Opciones;
+        tecla, op: integer;
     begin
-        repeat
-            ClrScr;
-            Writeln('1. Agregar envio');
-            Writeln('2. Listar envios');
-            Writeln('3. Buscar envio');
-            Writeln('4. Avanzar estado de envio');
-            Writeln('5. Cancelar envio');
-            Writeln('0. Salir');
-            Writeln('');
-            Writeln('99. Generar data de prueba');
-            
-            Write('Opcion: ');
-            Readln(input);
+        ClrScr;
+        AgregarOpcion(opciones, 'Agregar envio');
+        AgregarOpcion(opciones, 'Listar envios');
+        AgregarOpcion(opciones, 'Buscar envio');
+        AgregarOpcion(opciones, 'Avanzar estado de envio');
+        AgregarOpcion(opciones, 'Cancelar envio');
+        AgregarOpcion(opciones, 'Generar datos para probar el programa.');
+        AgregarOpcion(opciones, 'Salir');
 
-            if not TryStrToInt(input, OP) then
-            begin
-                OP:= -1;
-                Continue;
-            end;
+        op := 0;
+        repeat  
+            MostrarMenu(opciones, op); 
+            tecla:= DetectarTecla(); 
 
-            case OP of
-                1: AgregarEnvio();
-                2: ListarEnvios();
-                3: BuscarEnvio();
-                4: AvanzarEstadoEnvio();
-                5: CancelarEnvioVista();
-                99: GenerarDataDePrueba();
-                0: Writeln('Saliendo...');
+            case tecla of 
+                72: // Arriba
+                if (op > 0) then 
+                    op:=op-1
+                else 
+                    op:= Length(opciones) - 1;
+                80: // Abajo
+                if (op < Length(opciones) - 1) then
+                    op:=op+1 
+                else
+                    op:= 0;
+                13: // Enter
+                begin 
+                    case op of 
+                        0: 
+                        begin 
+                            Clrscr; 
+                            AgregarEnvio(); 
+                            ContinuarMenu;
+                        end; 
+                        1: 
+                        begin 
+                            Clrscr; 
+                            ListarEnvios();
+                            ContinuarMenu;
+                        end; 
+                        2: 
+                        begin 
+                            Clrscr; 
+                            BuscarEnvio();
+                            ContinuarMenu;
+                        end;
+                        3: 
+                        begin 
+                            Clrscr; 
+                            AvanzarEstadoEnvio();
+                            ContinuarMenu;
+                        end;
+                        4: 
+                        begin 
+                            Clrscr; 
+                            CancelarEnvioVista();
+                            ContinuarMenu;
+                        end;
+                        5: 
+                        begin 
+                            Clrscr; 
+                            GenerarDataDePrueba();
+                            Writeln('Se han generado 10 envios.');
+                            ContinuarMenu;
+                        end;
+                        6: 
+                        begin 
+                            Clrscr; 
+                            Writeln('Saliendo...');
+                            ContinuarMenu;
+                        end;
+                    end; 
+                end; 
             end;
-        until OP = 0;
+        until (op = 6) and (tecla = 13);
     end;
 end.

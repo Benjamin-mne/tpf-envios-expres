@@ -3,5 +3,5 @@ program TPF;
 uses Menu;
 
 begin
-    MostrarMenu();
+    IniciarVistas();
 end.
